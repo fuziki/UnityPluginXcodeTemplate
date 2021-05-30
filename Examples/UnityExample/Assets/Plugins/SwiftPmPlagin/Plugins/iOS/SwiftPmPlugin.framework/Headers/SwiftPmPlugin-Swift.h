@@ -205,6 +205,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # pragma pop_macro("any")
 #endif
 
+void swiftPmPlugin_callBack(SWIFT_NOESCAPE void (* _Nonnull handler)(char const * _Nonnull));
 void swiftPmPlugin_saveImage(void const * _Nullable texturePtr);
 int64_t swiftPmPlugin_toNumber(char const * _Nullable stringPtr) SWIFT_WARN_UNUSED_RESULT;
 #if __has_attribute(external_source_symbol)
