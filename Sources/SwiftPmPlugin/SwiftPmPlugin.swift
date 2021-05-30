@@ -16,13 +16,19 @@ public func swiftPmPlugin_saveImage(_ texturePtr: UnsafeRawPointer?) {
     let mtlTexture: MTLTexture = __bridge(texturePtr)
     SwiftPmPlugin.saveImage(mtlTexture: mtlTexture)
 }
+#endif
 
 // UnsafeRawPointer == UnsafePointer<Void> == (void*)
 func __bridge<T : AnyObject>(_ ptr: UnsafeRawPointer) -> T {
     return Unmanaged.fromOpaque(ptr).takeUnretainedValue()
 }
-#endif
 
+@_cdecl("swiftPmPlugin_callBack")
+public func swiftPmPlugin_callBack(_ handler: @convention(c) (UnsafePointer<CChar>) -> Void) {
+    let str = "this is swift string"
+    let nsStr = str as NSString
+    handler(nsStr.utf8String!)
+}
 
 class SwiftPmPlugin {
     var text = "Hello, World!"
