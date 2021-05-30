@@ -17,15 +17,15 @@ public class Cube : MonoBehaviour
     //============================================================================
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void swiftPmPlugin_callBackHandler([MarshalAs(UnmanagedType.LPStr), In] string message);
+    private delegate void swiftPmPlugin_callBackType([MarshalAs(UnmanagedType.LPStr), In] string message);
 
     [DllImport("__Internal")]
-    private static extern void swiftPmPlugin_callBack([MarshalAs(UnmanagedType.FunctionPtr)] swiftPmPlugin_callBackHandler callback);
+    private static extern void swiftPmPlugin_callBack([MarshalAs(UnmanagedType.FunctionPtr)] swiftPmPlugin_callBackType callback);
 
     //----------------------------------------------------------------------------
 
-    [MonoPInvokeCallback(typeof(swiftPmPlugin_callBackHandler))]
-    private static void swiftPmPlugin_callBackHandlerEntry(string message)
+    [MonoPInvokeCallback(typeof(swiftPmPlugin_callBackType))]
+    private static void swiftPmPlugin_callBackHandler(string message)
     {
         Debug.Log("native message -> " + message);
         swiftPmPlugin_callBackAction(message);
@@ -60,7 +60,7 @@ public class Cube : MonoBehaviour
 
         Debug.Log("call swiftPmPlugin_callBack(swiftPmPlugin_callBackHandlerEntry);");
 
-        swiftPmPlugin_callBack(swiftPmPlugin_callBackHandlerEntry);
+        swiftPmPlugin_callBack(swiftPmPlugin_callBackHandler);
 
         Debug.Log("myMessage -> " + myMessage);
     }
