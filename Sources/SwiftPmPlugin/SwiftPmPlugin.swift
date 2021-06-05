@@ -16,12 +16,12 @@ public func swiftPmPlugin_saveImage(_ texturePtr: UnsafeRawPointer?) {
     let mtlTexture: MTLTexture = __bridge(texturePtr)
     SwiftPmPlugin.saveImage(mtlTexture: mtlTexture)
 }
-#endif
 
 // UnsafeRawPointer == UnsafePointer<Void> == (void*)
 func __bridge<T : AnyObject>(_ ptr: UnsafeRawPointer) -> T {
     return Unmanaged.fromOpaque(ptr).takeUnretainedValue()
 }
+#endif
 
 @_cdecl("swiftPmPlugin_callBack")
 public func swiftPmPlugin_callBack(_ handler: @convention(c) (UnsafePointer<CChar>) -> Void) {
@@ -29,6 +29,40 @@ public func swiftPmPlugin_callBack(_ handler: @convention(c) (UnsafePointer<CCha
     let nsStr = str as NSString
     handler(nsStr.utf8String!)
 }
+
+#if !os(macOS)
+@_cdecl("swiftPmPlugin_callSendMessage")
+public func swiftPmPlugin_callSendMessage() {
+    let bundlePath = Bundle.main.bundlePath.appending("/Frameworks/UnityFramework.framework")
+    guard let bundle = Bundle(path: bundlePath) else { return }
+    let principalClass = bundle.principalClass as! NSObject.Type
+    let unityFramework: NSObject = principalClass.value(forKey: "getInstance") as! NSObject
+    
+    let sendMessageToGOWithNameSelector: Selector = NSSelectorFromString("sendMessageToGOWithName:functionName:message:")
+    
+    callInstanceMethod(targetInstance: unityFramework,
+                       selector: sendMessageToGOWithNameSelector,
+                       argCStr1: ("Cube" as NSString).utf8String!,
+                       argCStr2: ("Sent" as NSString).utf8String!,
+                       argCStr3: ("from send message" as NSString).utf8String!)
+}
+
+private func callInstanceMethod<T: NSObject>(targetInstance: T,
+                                             selector: Selector,
+                                             argCStr1: UnsafePointer<CChar>,
+                                             argCStr2: UnsafePointer<CChar>,
+                                             argCStr3: UnsafePointer<CChar>) {
+    typealias methodType = @convention(c) (
+        Any, Selector,
+        // args
+        UnsafePointer<CChar>, UnsafePointer<CChar>, UnsafePointer<CChar>
+    ) -> Void
+    let methodImplementation: IMP = class_getMethodImplementation(type(of: targetInstance), selector)!
+    let methodInvocation = unsafeBitCast(methodImplementation,
+                                         to: methodType.self)
+    methodInvocation(targetInstance, selector, argCStr1, argCStr2, argCStr3)
+}
+#endif
 
 class SwiftPmPlugin {
     var text = "Hello, World!"
