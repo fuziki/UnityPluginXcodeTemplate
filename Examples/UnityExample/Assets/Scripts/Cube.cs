@@ -7,12 +7,17 @@ public class Cube : MonoBehaviour
 {
 
     //============================================================================
+
 #if UNITY_EDITOR_OSX
     [DllImport("MacOsSwiftPmPlugin")]
 #elif UNITY_IOS
     [DllImport("__Internal")]
 #endif
     private static extern long swiftPmPlugin_toNumber(string stringNumber);
+    //============================================================================
+
+    [DllImport("__Internal")]
+    private static extern long swiftPmPlugin_callSendMessage();
 
     //============================================================================
 
@@ -63,5 +68,12 @@ public class Cube : MonoBehaviour
         swiftPmPlugin_callBack(swiftPmPlugin_callBackHandler);
 
         Debug.Log("myMessage -> " + myMessage);
+
+        swiftPmPlugin_callSendMessage();
+    }
+
+    public void Sent(string message)
+    {
+        Debug.Log("Sent message -> " + message);
     }
 }
