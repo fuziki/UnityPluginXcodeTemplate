@@ -26,4 +26,4 @@ xcodebuild -project SwiftPmPlugin.xcodeproj -scheme SwiftPmPlugin-Package -confi
 * Unity project using Native Plugin built from the SwiftPM library
 
 # Making
-* [Create an iOS Native Plugin for Unity using Swift](docs/Making.md)
+* [Create an iOS Native Plugin for Unity using Swift](https://medium.com/@f_yuki/create-an-ios-native-plugin-for-unity-using-swift-bc27e3634339)
