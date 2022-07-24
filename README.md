@@ -1,29 +1,56 @@
-# Example of Creating a Native Plugin for Unity with Swift
+# Unity Native Plugin Template for iOS & macOS using Swift
 
-# Package.swift
-* SwiftPM library
+Unity supports native plugin, which are libraries of native code written in Swift.  
+Native plugin make possible for code written in C# to call functions from these libraries.  
+Check [this document](docs/Making.md) for detailed Native Plugin creation instructions.  
 
-# Build Framework from SwiftPM
+# Build Swift Libraries
+
+Check [Makefile](Makefile) for command details.
+
+## Build Framework for iOS
 
 ```
-swift package generate-xcodeproj --skip-extra-files
-xcodebuild -project SwiftPmPlugin.xcodeproj -scheme SwiftPmPlugin-Package -configuration Release -sdk iphoneos CONFIGURATION_BUILD_DIR=.
+$ make framework
 ```
 
-# SwiftPmPlugin.xcworkspace
-## NativeExamples
-### Example-iOS
-* Example SwiftPM library written in Objective-C
+This should result in `SwiftPmPlugin.framework` being generated in `Build`.  
+Copy the built framework into your Unity project's `Assets/Plugins/iOS`.  
+Enable `Add To Embedded Binaries` in the Unity Inspector of `SwiftPmPlugin.framework`.
 
-### Swift-Example-iOS
-* Example SwiftPM library written in Swift
+![unity_inspector_embed](docs/images/unity_inspector_embed.png)
 
-## MacOsSwiftPmPlugin
-### MacOsSwiftPmPlugin
-* Build macOS Bundle for macOS Unity Native Plugin
+## Build Bundle for macOS
 
-# Examples/UnityExample
-* Unity project using Native Plugin built from the SwiftPM library
+```
+$ make bundle
+```
 
-# Making
-* [Create an iOS Native Plugin for Unity using Swift](https://medium.com/@f_yuki/create-an-ios-native-plugin-for-unity-using-swift-bc27e3634339)
+This should result in `SwiftPmPlugin.bundle` being generated in `Build`.  
+Copy the built bundle into your Unity project's `Assets/Plugins/masOS`.  
+
+# Swift Interface Example for Unity
+
+Check [UnityInterface.swift](Sources/SwiftPmPlugin/UnityInterface/UnityInterface.swift) for details.
+
+```swift
+@_cdecl("swiftPmPlugin_toNumber")
+public func swiftPmPlugin_toNumber(_ stringPtr: UnsafePointer<CChar>?) -> Int64 {
+    let str = String(cString: stringPtr!)
+    return Int64(Int(str) ?? 0)
+}
+```
+
+# Call Swift Function in C#
+
+Check [SwiftPmPlagin.cs](Examples/UnityExample/Assets/Plugins/SwiftPmPlagin/Scripts/SwiftPmPlagin.cs) for details.
+
+```c#
+[DllImport(libName)]
+private static extern long swiftPmPlugin_toNumber(string stringNumber);
+
+public static long ToNumber(string stringNumber)
+{
+    return swiftPmPlugin_toNumber(stringNumber);
+}
+```
