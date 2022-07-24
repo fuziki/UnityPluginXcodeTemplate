@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:macOS-Plugin/macOS-Plugin.xcodeproj">
+      location = "group:Examples/NativeExamples/NativeExamples.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Examples/NativeExamples/NativeExamples.xcodeproj">
+      location = "group:macOS-Plugin/macOS-Plugin.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:">
