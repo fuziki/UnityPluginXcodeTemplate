@@ -28,6 +28,7 @@ $ make bundle
 
 This should result in `SwiftPmPlugin.bundle` being generated in `Build`.  
 Copy the built bundle into your Unity project's `Assets/Plugins/masOS`.  
+Need to restart unity to load the new bundle.  
 
 # Swift Interface Example for Unity
 
