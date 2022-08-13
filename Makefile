@@ -1,5 +1,13 @@
+UNITY_APP=/Applications/Unity/Hub/Editor/2021.3.6f1/Unity.app
 BUILD_DIR=Build
 TARGET_NAME=SwiftPmPlugin
+UNITY_PROJECT_PATH=Examples/UnityExample
+ASSET_PATH=Assets/Plugins/SwiftPmPlagin/Plugins
+
+test:
+	swift test
+
+all: framework bundle copy package
 
 framework:
 	swift package generate-xcodeproj --skip-extra-files
@@ -17,10 +25,20 @@ framework:
 bundle:
 	xcodebuild \
 		-workspace ${TARGET_NAME}.xcworkspace \
-		-scheme MacOsSwiftPmPlugin \
+		-scheme MacOs${TARGET_NAME} \
 		-configuration Release \
 		-sdk macosx \
 		CONFIGURATION_BUILD_DIR=$(CURDIR)/${BUILD_DIR}
 
-test:
-	swift test
+copy:
+	cp -r ${BUILD_DIR}/${TARGET_NAME}.framework ${UNITY_PROJECT_PATH}/${ASSET_PATH}/iOS/
+	cp -r ${BUILD_DIR}/MacOs${TARGET_NAME}.bundle ${UNITY_PROJECT_PATH}/${ASSET_PATH}/masOS/
+
+package:
+	${UNITY_APP}/Contents/MacOS/Unity \
+		-exportPackage ${ASSET_PATH} $(CURDIR)/${BUILD_DIR}/${TARGET_NAME}.unitypackage \
+		-projectPath ${UNITY_PROJECT_PATH} \
+		-batchmode \
+		-nographics \
+		-quit
+	echo exported ${BUILD_DIR}/${TARGET_NAME}.unitypackage
