@@ -84,5 +84,15 @@ public static class SwiftPmPlagin
     }
 
     // ------------------------------------------------------------------
+
+    [DllImport("__Internal")]
+    private static extern void swiftPmPlugin_presentVc();
+
+    public static void PresentVc()
+    {
+        swiftPmPlugin_presentVc();
+    }
+
+    // ------------------------------------------------------------------
 #endif
 }

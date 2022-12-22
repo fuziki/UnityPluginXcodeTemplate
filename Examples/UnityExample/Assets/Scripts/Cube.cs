@@ -46,4 +46,12 @@ public class Cube : MonoBehaviour
         SwiftPmPlagin.SaveImage(texture);
 #endif
     }
+
+    public void PresentVC()
+    {
+        Debug.Log("Present VC!");
+#if !UNITY_EDITOR && UNITY_IOS
+        SwiftPmPlagin.PresentVc();
+#endif
+    }
 }
