@@ -7,14 +7,20 @@
 
 #if os(iOS)
 import Foundation
+import UIKit
 #endif
 
 class UnityFramework {
+    private static var principalClass: NSObject.Type? {
+        let bundlePath = Bundle.main.bundlePath.appending("/Frameworks/UnityFramework.framework")
+        guard let bundle = Bundle(path: bundlePath) else { return nil }
+        let principalClass = bundle.principalClass as! NSObject.Type
+        return principalClass
+    }
+    
     static func sendMessage(object: String, method: String, arg: String) {
 #if os(iOS)
-        let bundlePath = Bundle.main.bundlePath.appending("/Frameworks/UnityFramework.framework")
-        guard let bundle = Bundle(path: bundlePath) else { return }
-        let principalClass = bundle.principalClass as! NSObject.Type
+        guard let principalClass = principalClass else { return }
         let unityFramework: NSObject = principalClass.value(forKey: "getInstance") as! NSObject
         let sendMessageToGOWithNameSelector: Selector = NSSelectorFromString("sendMessageToGOWithName:functionName:message:")
         callInstanceMethod(targetInstance: unityFramework,
@@ -39,6 +45,16 @@ class UnityFramework {
         let methodInvocation = unsafeBitCast(methodImplementation,
                                              to: methodType.self)
         methodInvocation(targetInstance, selector, argCStr1, argCStr2, argCStr3)
+    }
+#endif
+
+#if os(iOS)
+    static var rootViewController: UIViewController {
+        let principalClass: NSObject.Type = principalClass!
+        let unityFramework: NSObject = principalClass.value(forKey: "getInstance") as! NSObject
+        let appController: NSObject = unityFramework.value(forKey: "appController") as! NSObject
+        let rootViewController: UIViewController = appController.value(forKey: "rootViewController") as! UIViewController
+        return rootViewController
     }
 #endif
 }
