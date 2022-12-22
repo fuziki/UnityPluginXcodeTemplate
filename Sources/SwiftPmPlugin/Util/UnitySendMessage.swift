@@ -11,13 +11,15 @@ import UIKit
 #endif
 
 class UnityFramework {
+#if os(iOS)
     private static var principalClass: NSObject.Type? {
         let bundlePath = Bundle.main.bundlePath.appending("/Frameworks/UnityFramework.framework")
         guard let bundle = Bundle(path: bundlePath) else { return nil }
         let principalClass = bundle.principalClass as! NSObject.Type
         return principalClass
     }
-    
+#endif
+
     static func sendMessage(object: String, method: String, arg: String) {
 #if os(iOS)
         guard let principalClass = principalClass else { return }
