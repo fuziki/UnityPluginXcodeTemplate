@@ -1,4 +1,4 @@
-# Unity Native Plugin Template for iOS & macOS using Swift
+# Unity Native Plugin Example for iOS & macOS using Swift
 
 Unity supports native plugin, which are libraries of native code written in Swift.  
 Native plugin make possible for code written in C# to call functions from these libraries.  
