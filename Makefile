@@ -2,7 +2,7 @@ UNITY_APP=/Applications/Unity/Hub/Editor/2021.3.6f1/Unity.app
 BUILD_DIR=Build
 TARGET_NAME=SwiftPmPlugin
 UNITY_PROJECT_PATH=Examples/UnityExample
-ASSET_PATH=Assets/Plugins/SwiftPmPlagin/Plugins
+ASSET_PATH=Assets/Plugins/SwiftPmPlugin/Plugins
 
 test:
 	swift test
@@ -32,7 +32,7 @@ bundle:
 
 copy:
 	cp -r ${BUILD_DIR}/${TARGET_NAME}.framework ${UNITY_PROJECT_PATH}/${ASSET_PATH}/iOS/
-	cp -r ${BUILD_DIR}/MacOs${TARGET_NAME}.bundle ${UNITY_PROJECT_PATH}/${ASSET_PATH}/masOS/
+	cp -r ${BUILD_DIR}/MacOs${TARGET_NAME}.bundle ${UNITY_PROJECT_PATH}/${ASSET_PATH}/macOS/
 
 package:
 	${UNITY_APP}/Contents/MacOS/Unity \
