@@ -10,7 +10,7 @@ public class Cube : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SwiftPmPlagin.CallBackAction += (string message) =>
+        SwiftPmPlugin.CallBackAction += (string message) =>
         {
             Debug.Log("Receive Message: " + message);
         };
@@ -23,14 +23,14 @@ public class Cube : MonoBehaviour
 
         counter++;
 
-        Debug.Log($"Counter: { SwiftPmPlagin.ToNumber(counter.ToString()) }");
+        Debug.Log($"Counter: { SwiftPmPlugin.ToNumber(counter.ToString()) }");
 
-        Debug.Log("Call SwiftPmPlagin.CallBack()");
+        Debug.Log("Call SwiftPmPlugin.CallBack()");
 
-        SwiftPmPlagin.CallBack();
+        SwiftPmPlugin.CallBack();
 
 #if !UNITY_EDITOR && UNITY_IOS
-        SwiftPmPlagin.CallSendMessage();
+        SwiftPmPlugin.CallSendMessage();
 #endif
     }
 
@@ -43,7 +43,7 @@ public class Cube : MonoBehaviour
     {
         Debug.Log("Save Image!");
 #if !UNITY_EDITOR && UNITY_IOS
-        SwiftPmPlagin.SaveImage(texture);
+        SwiftPmPlugin.SaveImage(texture);
 #endif
     }
 
@@ -51,7 +51,7 @@ public class Cube : MonoBehaviour
     {
         Debug.Log("Present VC!");
 #if !UNITY_EDITOR && UNITY_IOS
-        SwiftPmPlagin.PresentVc();
+        SwiftPmPlugin.PresentVc();
 #endif
     }
 }

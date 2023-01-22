@@ -27,7 +27,7 @@ $ make bundle
 ```
 
 This should result in `SwiftPmPlugin.bundle` being generated in `Build`.  
-Copy the built bundle into your Unity project's `Assets/Plugins/masOS`.  
+Copy the built bundle into your Unity project's `Assets/Plugins/macOS`.  
 Need to restart unity to load the new bundle.  
 
 # Swift Interface Example for Unity
@@ -44,7 +44,7 @@ public func swiftPmPlugin_toNumber(_ stringPtr: UnsafePointer<CChar>?) -> Int64 
 
 # Call Swift Function in C#
 
-Check [SwiftPmPlagin.cs](Examples/UnityExample/Assets/Plugins/SwiftPmPlagin/Scripts/SwiftPmPlagin.cs) for details.
+Check [SwiftPmPlugin.cs](Examples/UnityExample/Assets/Plugins/SwiftPmPlugin/Scripts/SwiftPmPlugin.cs) for details.
 
 ```c#
 [DllImport(libName)]

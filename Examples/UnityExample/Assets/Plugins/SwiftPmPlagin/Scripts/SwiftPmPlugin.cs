@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 #endif
 
-public static class SwiftPmPlagin
+public static class SwiftPmPlugin
 {
 #if UNITY_EDITOR_OSX
     private const string libName = "MacOsSwiftPmPlugin";
