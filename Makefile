@@ -10,10 +10,8 @@ test:
 all: framework bundle copy package
 
 framework:
-	swift package generate-xcodeproj --skip-extra-files
-	xcodebuild \
-		-project ${TARGET_NAME}.xcodeproj \
-		-scheme ${TARGET_NAME}-Package \
+	xcodebuild build \
+		-scheme ${TARGET_NAME} \
 		-configuration Release \
 		-sdk iphoneos \
 		ENABLE_BITCODE=YES \
@@ -31,8 +29,8 @@ bundle:
 		CONFIGURATION_BUILD_DIR=$(CURDIR)/${BUILD_DIR}
 
 copy:
-	cp -r ${BUILD_DIR}/${TARGET_NAME}.framework ${UNITY_PROJECT_PATH}/${ASSET_PATH}/iOS/
-	cp -r ${BUILD_DIR}/MacOs${TARGET_NAME}.bundle ${UNITY_PROJECT_PATH}/${ASSET_PATH}/macOS/
+	cp -r ${BUILD_DIR}/PackageFrameworks/${TARGET_NAME}.framework ${UNITY_PROJECT_PATH}/${ASSET_PATH}/iOS/
+#	cp -r ${BUILD_DIR}/MacOs${TARGET_NAME}.bundle ${UNITY_PROJECT_PATH}/${ASSET_PATH}/macOS/
 
 package:
 	${UNITY_APP}/Contents/MacOS/Unity \

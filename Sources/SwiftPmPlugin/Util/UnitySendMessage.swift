@@ -32,6 +32,7 @@ class UnityFramework {
                            argCStr3: (arg as NSString).utf8String!)
 #endif
     }
+
 #if os(iOS)
     private static func callInstanceMethod<T: NSObject>(targetInstance: T,
                                                         selector: Selector,
